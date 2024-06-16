@@ -1,0 +1,124 @@
+﻿
+@model PagedList.IPagedList<Model.EF.User>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh Sách Người Dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- DataTales Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"> </h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="dataTables_wrapper dt-bootstrap4" id="dataTable_wrapper">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="dataTable_length">
+                                        <label style="text-align: center;">
+                                            Show  entries<select name="dataTable_length" class="custom-select custom-select-sm form-control form-control-sm" aria-controls="dataTable">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_filter" id="dataTable_filter">
+                                        <label>Search:<input class="form-control form-control-sm" aria-controls="dataTable" type="search" placeholder=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table width="100%" class="table table-bordered dataTable" id="dataTable" role="grid" aria-describedby="dataTable_info" style="width: 100%;" cellspacing="0">
+                                        <thead>
+                                            <tr role="row" style="text-align: center">
+                                                <th tabindex="0" class="sorting_asc" aria-controls="dataTable" aria-label="Name: activate to sort column descending" aria-sort="ascending" rowspan="1" colspan="1"></th>
+                                                <th tabindex="0" class="sorting" aria-controls="dataTable" aria-label="Position: activate to sort column ascending" rowspan="1" colspan="1">User name</th>
+                                                <th tabindex="0" class="sorting" aria-controls="dataTable" aria-label="Age: activate to sort column ascending" rowspan="1" colspan="1">Full name</th>
+                                                <th tabindex="0" class="sorting" aria-controls="dataTable" aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Email</th>
+                                                <th tabindex="0" class="sorting" aria-controls="dataTable" aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Address</th>
+                                                <th tabindex="0" class="sorting" aria-controls="dataTable" aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Phone  number</th>
+                                                <th tabindex="0" class="sorting" aria-controls="dataTable" aria-label="Salary: activate to sort column ascending" rowspan="1" colspan="1">Create date</th>
+                                                <th tabindex="0" class="sorting" aria-controls="dataTable" aria-label="Start date: activate to sort column ascending" rowspan="1" colspan="1">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr style="text-align: center">
+                                                <th rowspan="1" colspan="1"></th>
+                                                <th rowspan="1" colspan="1">User name</th>
+                                                <th rowspan="1" colspan="1">Full name</th>
+                                                <th rowspan="1" colspan="1">Email</th>
+                                                <th rowspan="1" colspan="1">Address</th>
+                                                <th rowspan="1" colspan="1">Phone number</th>
+                                                <th rowspan="1" colspan="1">Create date</th>
+                                                <th rowspan="1" colspan="1">Status</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            @foreach (var item in Model )
+                                            {
+                                                <tr class="odd" role="row" id="row_@item.ID">
+                                                    <td class="sorting_1">
+                                                        <a href="/Admin/User/Edit/@item.ID">Delete</a>
+                                                        @Ajax.ActionLink("Xóa", "Delete", new AjaxOptions
+                                                                 {
+                                                                     Confirm = "Bạn có muốn xóa user này không?",
+                                                                     OnComplete = "$('#row_" + @item.ID + "').remove()",
+                                                                     HttpMethod = "Delete"
+                                                                 })
+                                                    </td>
+                                                    <td>@item.UserName</td>
+                                                    <td>@item.Name</td>
+                                                    <td>@item.Email</td>
+                                                    <td>@item.Address</td>
+                                                    <td>@item.Phone</td>
+                                                    <td>@item.CreateDate</td>
+                                                    <td>@item.Status</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">The total number of users is  @Model.Count()</div>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+    <a class="scroll-to-top rounded" style="display: inline;" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+</body>
+</html>
